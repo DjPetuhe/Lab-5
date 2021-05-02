@@ -1,0 +1,16 @@
+
+.vs/Lab-5/v16/
+
+MathIntepreter/.vs/MathIntepreter/v16/
+
+*.vcxproj
+
+*.json
+
+*.sqlite
+
+*.filters
+
+*.user
+
+MathIntepreter/MathIntepreter.sln
