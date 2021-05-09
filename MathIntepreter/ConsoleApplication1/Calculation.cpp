@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include "Calculation.h"
 #include "Stack.h"
 
@@ -139,4 +139,4 @@ float calculate(string* s, int size)
     }
 
     return stof(nums.top());
-}
+}*/

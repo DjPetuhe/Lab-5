@@ -13,11 +13,20 @@ void WorkWithCode::fromCodeToExp(vector<string> &code, vector<string> &expressio
 	string exp;
 	bool isif = false;
 	bool iselse = false;
+	int inif = 0;
 	for (int i = 0; i < all.size(); i++)
 	{
 		if (all[i] != ' ' && all[i] != '\t' && all[i] != '\n')
 		{
 			exp += all[i];
+		}
+		if (all[i] == '{')
+		{
+			inif++;
+		}
+		if (all[i] == '}')
+		{
+			inif--;
 		}
 		if ((exp.size() > 2) && (exp[2] == '(') && (exp[1] == 'f') && (exp[0] == 'i'))
 		{
@@ -28,13 +37,13 @@ void WorkWithCode::fromCodeToExp(vector<string> &code, vector<string> &expressio
 			expressions.push_back(exp);
 			exp.clear();
 		}
-		if (isif && all[i] == '}')
+		if (isif && all[i] == '}' && inif == 0)
 		{
 			if (all.size() > i + 5 && !iselse && all[i+1] == 'e' && all[i+2] == 'l' && all[i+3] == 's' && all[i+4] == 'e' && all[i+5] == '{')
 			{
 				iselse = true;
 			}
-			if (all.size() <= i + 5 || all[i+1] != 'e' || all[i+2] != 'l' || all[i+3] != 's' || all[i+4] != 'e' || all[i+5] != '{')
+			if (inif == 0 &&(all.size() <= i + 5 || all[i+1] != 'e' || all[i+2] != 'l' || all[i+3] != 's' || all[i+4] != 'e' || all[i+5] != '{'))
 			{
 				expressions.push_back(exp);
 				exp.clear();
