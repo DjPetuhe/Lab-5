@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class FileWork
 {
-	static void file_read(std::string* filedata);
+public:
+	static void file_read(std::vector<std::string> &filedata);
 	static void file_write(float result);
 };

@@ -14,3 +14,11 @@ MathIntepreter/.vs/MathIntepreter/v16/
 *.user
 
 MathIntepreter/MathIntepreter.sln
+
+*.obj
+
+*.tlog
+
+MathIntepreter/Debug/
+
+MathIntepreter/ConsoleApplication1/Debug/

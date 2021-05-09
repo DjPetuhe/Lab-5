@@ -1,9 +1,10 @@
 #include "FileWork.h"
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
 
-void FileWork::file_read(std::string* filedata)
+void FileWork::file_read(vector<string> &filedata)
 {
 	cout << "Enter your file directory:" << endl;
 	string directory;
@@ -19,11 +20,11 @@ void FileWork::file_read(std::string* filedata)
 	}
 	else
 	{
-		int i = 0;
+		string line;
 		while (!filetext.eof())
 		{
-			getline(filetext, filedata[i]);
-			i++;
+			getline(filetext, line);
+			filedata.push_back(line);
 		}
 	}
 	
