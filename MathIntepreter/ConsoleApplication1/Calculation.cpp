@@ -1,6 +1,6 @@
-/*#include <iostream>
+#include <iostream>
+#include<stack>
 #include "Calculation.h"
-#include "Stack.h"
 
 using namespace std;
 
@@ -29,7 +29,7 @@ void expressionSeparate(string args, string* expression, int* expressionSize)
     *expressionSize = count + 1;
 }
 
-float do_operation(Stack& nums, Stack& operations)
+float do_operation(stack<string>& nums, stack<string>& operations)
 {
 
     float a, b;
@@ -72,7 +72,7 @@ float do_operation(Stack& nums, Stack& operations)
 
 float calculate(string* s, int size)
 {
-    Stack nums, operations;
+    stack<string> nums, operations;
     float res;
 
     for (int i = 0; i < size; i++)
@@ -83,9 +83,9 @@ float calculate(string* s, int size)
         }
         else if (s[i] == "+" || s[i] == "-")
         {
-            if (!operations.isEmpty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "-" || operations.top() == "+" || operations.top() == "^"))
+            if (!operations.empty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "-" || operations.top() == "+" || operations.top() == "^"))
             {
-                while (!operations.isEmpty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "-" || operations.top() == "+" || operations.top() == "^"))
+                while (!operations.empty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "-" || operations.top() == "+" || operations.top() == "^"))
                 {
                     res = do_operation(nums, operations);
                     nums.push(to_string(res));
@@ -101,7 +101,7 @@ float calculate(string* s, int size)
         }
         else if (s[i] == "*" || s[i] == "/")
         {
-            if (!operations.isEmpty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "^"))
+            if (!operations.empty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "^"))
             {
                 while (operations.top() == "*" || operations.top() == "/" || operations.top() == "^")
                 {
@@ -132,11 +132,11 @@ float calculate(string* s, int size)
         }
     }
 
-    while (!operations.isEmpty() && !nums.isEmpty())
+    while (!operations.empty() && !nums.empty())
     {
         res = do_operation(nums, operations);
         nums.push(to_string(res));
     }
 
     return stof(nums.top());
-}*/
+}
