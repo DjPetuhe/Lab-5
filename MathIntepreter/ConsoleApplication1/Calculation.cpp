@@ -1,5 +1,6 @@
 #include <iostream>
 #include<stack>
+#include <string>
 #include "Calculation.h"
 
 using namespace std;
