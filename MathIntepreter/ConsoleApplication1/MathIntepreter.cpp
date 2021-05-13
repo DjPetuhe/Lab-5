@@ -1,19 +1,13 @@
 ﻿#include <iostream>
-#include "Calculation.h"
-#include "Stack.h"
+#include <vector>
+#include "FileWork.h"
+#include "AST.h"
 using namespace std;
 
-int main(int argc, char* argv[])
+int main()
 {
-    string args;
-    for (int i = 1; i < argc; i++)
-    {
-        args += argv[i];
-    }
-    string* expression = new string[args.size() + 1];
-
-    int expression_size;
-    expressionSeparate(args, expression, &expression_size);
-    cout << calculate(expression, expression_size) << endl;
-    delete[] expression;
+	vector<string> code;
+	FileWork::file_read(code);
+	AST tree1;
+	tree1.createTree(code);
 }

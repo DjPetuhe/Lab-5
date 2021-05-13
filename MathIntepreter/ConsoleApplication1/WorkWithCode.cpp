@@ -98,3 +98,61 @@ void WorkWithCode::fromExpToTokens(string expression, vector<string>& tokens)
 		}
 	}
 }
+
+bool WorkWithCode::expressionIsIf(string expression)
+{
+	if (expression.size() > 2)
+	{
+		if (expression[0] == 'i' && expression[1] == 'f' && expression[2] == '(')
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool WorkWithCode::expressionIsAssign(string expression)
+{
+	for (int i = 0; i < expression.size(); i++)
+	{
+		if (i != 0)
+		{
+			if (expression[i] == '=' && expression[i - 1] == ':')
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool WorkWithCode::expressionIsReturn(string expression)
+{
+	if (expression.size() > 6)
+	{
+		if (expression.find("return"))
+		{
+			int pos = expression.find("return");
+			if (pos == 0 && (!isalpha(expression[6])))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool WorkWithCode::expressionConsistElse(string if_expression)
+{
+	if (if_expression.find("else"))
+	{
+		if (if_expression.size() > if_expression.find("else") + 4)
+		{
+			if (if_expression[if_expression.find("else") + 5] == '{')
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}

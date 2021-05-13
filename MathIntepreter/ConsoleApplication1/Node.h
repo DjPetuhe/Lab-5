@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "WorkWithAST.h"
 #include "AST.h"
 
 class Node
