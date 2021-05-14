@@ -15,10 +15,5 @@ int main()
 
 	
 	map <string, double> variables;
-
-	
-
 	tree1.StartImplementation(variables);
-
-	cout << variables.find("{b")->second << endl;
 }

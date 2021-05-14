@@ -239,8 +239,16 @@ void AST::Implementation (Node *node, map<string, double> &variables) {
 			assign (node->childrens[i], variables);
 		}
 		else if (node->childrens[i]->data == "if") {
-			cout << "++++++++++++" << endl;
-			Implementation (node->childrens[i]->childrens[1], variables);
+			if  (condiction (node->childrens[i]->childrens[0], variables)) {
+				Implementation (node->childrens[i]->childrens[1], variables);
+			}
+			else {
+				Implementation (node->childrens[i]->childrens[2], variables);
+			}
+		}
+		else if (node->childrens[i]->data == "return") {
+			cout << calculate (node->childrens[i]->childrens[0], variables) << endl;
+			break;
 		}
 		
 	}
