@@ -133,7 +133,7 @@ Node* AST::createElseBody(string else_expression)
 	}
 	vector<string> elseBody;
 	vector<string> expressions;
-	elseBody.push_back(else_expression.substr(else_expression.find('{'), endpos - else_expression.find('{')));
+	elseBody.push_back(else_expression.substr(else_expression.find('{') + 1, endpos - else_expression.find('{') - 1));
 	WorkWithCode::fromCodeToExp(elseBody, expressions);
 	for (int i = 0; i < expressions.size(); i++)
 	{
