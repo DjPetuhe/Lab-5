@@ -10,4 +10,6 @@ public:
 	static bool expressionIsIf(std::string);
 	static bool expressionIsAssign(std::string);
 	static bool expressionIsReturn(std::string);
+	static bool expressionConsistElse(std::string);
+	static void fromIfToElse(std::string);
 };

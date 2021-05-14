@@ -38,7 +38,9 @@ Node* AST::createIfExpression(string if_expression)
 	if_node->childrens.push_back(createIfBody(if_expression));
 	if (WorkWithCode::expressionConsistElse(if_expression))
 	{
-		if_node->childrens.push_back(createElseBody(if_expression));
+		string else_expression;
+		WorkWithCode::fromIfToElse(if_expression, else_expression);
+		if_node->childrens.push_back(createElseBody(else_expression));
 	}
 	return if_node;
 }
@@ -80,21 +82,73 @@ Node* AST::createIfBody(string if_expression)
 		{
 			deep++;
 		}
-		if (if_expression[i] = '}' && deep == 1)
+		if (if_expression[i] = '}')
 		{
-			endpos = i;
-			i = if_expression.size();
+			if (deep == 1)
+			{
+				endpos = i;
+				i = if_expression.size();
+			}
+			deep--;
 		}
 	}
 	vector<string> ifBody;
 	vector<string> expressions;
 	ifBody.push_back(if_expression.substr(if_expression.find('{'), endpos));
 	WorkWithCode::fromCodeToExp(ifBody,expressions);
+	for (int i = 0; i < expressions.size(); i++)
+	{
+		if (WorkWithCode::expressionIsIf(expressions[i]))
+		{
+			ifBody_node->childrens.push_back(createIfExpression(expressions[i]));
+		}
+		else if (WorkWithCode::expressionIsAssign(expressions[i]))
+		{
+			ifBody_node->childrens.push_back(createAssignExpression(expressions[i]));
+		}
+		else if (WorkWithCode::expressionIsReturn(expressions[i]))
+		{
+			ifBody_node->childrens.push_back(createReturnExpression(expressions[i]));
+		}
+	}
 }
 
-Node* AST::createElseBody(string if_expression)
+Node* AST::createElseBody(string else_expression)
 {
-
+	Node* elseBody_node = new Node("else body");
+	int deep = 0;
+	int endpos;
+	for (int i = 0; i < else_expression.size(); i++)
+	{
+		if (else_expression[i] = '{')
+		{
+			deep++;
+		}
+		if (else_expression[i] = '}' && deep == 1)
+		{
+			endpos = i;
+			i = else_expression.size();
+		}
+	}
+	vector<string> elseBody;
+	vector<string> expressions;
+	elseBody.push_back(else_expression.substr(else_expression.find('{'), endpos));
+	WorkWithCode::fromCodeToExp(elseBody, expressions);
+	for (int i = 0; i < expressions.size(); i++)
+	{
+		if (WorkWithCode::expressionIsIf(expressions[i]))
+		{
+			elseBody_node->childrens.push_back(createIfExpression(expressions[i]));
+		}
+		else if (WorkWithCode::expressionIsAssign(expressions[i]))
+		{
+			elseBody_node->childrens.push_back(createAssignExpression(expressions[i]));
+		}
+		else if (WorkWithCode::expressionIsReturn(expressions[i]))
+		{
+			elseBody_node->childrens.push_back(createReturnExpression(expressions[i]));
+		}
+	}
 }
 
 Node* AST::createExpression(string expression)

@@ -156,3 +156,28 @@ bool WorkWithCode::expressionConsistElse(string if_expression)
 	}
 	return false;
 }
+
+void WorkWithCode::fromIfToElse(string if_expression, string else_expression)
+{
+	int deep = 0;
+	int startpos;
+	for (int i = 0; i < if_expression.size(); i++)
+	{
+		if (if_expression[i] = '{')
+		{
+			if (i > 4 && deep == 0)
+			{
+				if (if_expression[i - 1] == 'e' && if_expression[i - 2] == 'l' && if_expression[i - 3] == 's' && if_expression[i - 4] == 'e')
+				{
+					startpos = i;
+				}
+			}
+			deep++;
+		}
+		if (if_expression[i] = '}')
+		{
+			deep--;
+		}
+	}
+	else_expression = if_expression.substr(startpos);
+}
