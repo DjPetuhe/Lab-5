@@ -1,8 +1,11 @@
 #include <iostream>
-using namespace std;
+#include <cmath>
+#include <map>
 #include "AST.h"
 #include "Node.h"
 #include "WorkWithCode.h"
+
+using namespace std;
 
 AST::AST()
 {
@@ -215,4 +218,67 @@ Node* AST::createExpression(string expression)
 		NodeStack.push_back(Node::makenode(op, Childs));
 	}
 	return NodeStack.back();
+}
+
+void AST::StartImplementation (map <string, double> &variables) {
+	Implementation (root, variables);
+}
+
+void AST::Implementation (Node *node, map<string, double> &variables) {
+
+	cout << node->data << endl;
+
+	if (node->data == ":=") {
+
+	}
+
+	for (int i = 0; i < node->childrens.size(); i++) {
+
+		if (node->childrens[i]->data == ":=") {
+			assign (node->childrens[i], variables);
+		}
+		//PrintTree (node->childrens[i], variables);
+	}
+}
+
+void AST::assign (Node *node, map <string, double> &variables) {
+	variables.emplace(node->childrens[0]->data, calculate (node->childrens[1], variables));
+}
+
+double AST::calculate (Node *node, map <string, double> &variables) {
+	double res = 0;
+
+	res = do_calculation(node, variables);
+
+	return res;
+}
+
+double AST::do_calculation (Node *node, map <string, double> &variables) {
+	double res = 0;
+
+	if (node->data == "+") {
+		res = do_calculation(node->childrens[0], variables) + do_calculation(node->childrens[1], variables);
+	} else if (node->data == "-") {
+		res = do_calculation(node->childrens[0], variables) - do_calculation(node->childrens[1], variables);
+	} else if (node->data == "/") {
+		res = do_calculation(node->childrens[0], variables) / do_calculation(node->childrens[1], variables);
+	} else if (node->data == "*") {
+		res = do_calculation(node->childrens[0], variables) * do_calculation(node->childrens[1], variables);
+	} else if (node->data == "^") {
+		res = pow (do_calculation(node->childrens[0], variables), do_calculation(node->childrens[1], variables));
+	} else if (isNumber(node->data)) {
+		cout << node->data << endl;
+		res = stof(node->data);
+	} else {
+		res = variables.find(node->data)->second;
+	}
+
+	return res;
+}
+
+bool AST::isNumber (string s) {
+	for (int i = 0; i < s.size(); i++)
+        if((s[i] < '0' || s[i] > '9') && s[i] != '-' && s[i] != '.') 
+        	return false; 
+    return true;
 }

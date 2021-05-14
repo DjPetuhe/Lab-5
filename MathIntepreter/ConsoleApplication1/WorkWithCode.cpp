@@ -208,4 +208,5 @@ int WorkWithCode::givePriority(string token)
 	{
 		return 3;
 	}
+	return 0;
 }

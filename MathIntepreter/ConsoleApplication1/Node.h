@@ -5,9 +5,10 @@
 
 class Node
 {
+public:
 	std::string data;
 	std::vector<Node*> childrens;
-public:
+
 	Node(std::string);
 	static Node* makenode(std::string );
 	static Node* makenode(std::string, std::vector<Node*>);

@@ -1,0 +1,10 @@
+a := 10;
+b := a + 2;
+if (b +a)
+{
+    return (b);
+}
+else
+{
+    return (a);
+}

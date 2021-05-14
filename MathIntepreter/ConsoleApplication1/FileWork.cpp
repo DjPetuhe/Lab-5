@@ -6,13 +6,13 @@ using namespace std;
 
 void FileWork::file_read(vector<string> &filedata)
 {
-	cout << "Enter your file directory:" << endl;
-	string directory;
-	if (cin.peek() == '\n')
-	{
-		cin.ignore();
-	}
-	getline(cin, directory);
+	//cout << "Enter your file directory:" << endl;
+	string directory = "test.txt";
+	//if (cin.peek() == '\n')
+	//{
+	//	cin.ignore();
+	//}
+	//getline(cin, directory);
 	ifstream filetext(directory);
 	if (!filetext.is_open())
 	{
