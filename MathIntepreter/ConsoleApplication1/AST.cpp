@@ -97,7 +97,7 @@ Node* AST::createIfBody(string if_expression)
 	}
 	vector<string> ifBody;
 	vector<string> expressions;
-	ifBody.push_back(if_expression.substr(if_expression.find('{'), endpos));
+	ifBody.push_back(if_expression.substr(if_expression.find('{') + 1, endpos - if_expression.find('{')-1));
 	WorkWithCode::fromCodeToExp(ifBody,expressions);
 	for (int i = 0; i < expressions.size(); i++)
 	{

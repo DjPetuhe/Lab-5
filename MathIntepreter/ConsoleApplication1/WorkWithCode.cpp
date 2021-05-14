@@ -90,7 +90,14 @@ void WorkWithCode::fromExpToTokens(string expression, vector<string>& tokens)
 			tokens.push_back(token);
 			token.clear();
 		}
-		if (expression[i] == '+' || expression[i] == '-' || expression[i] == '*' || expression[i] == '^' || expression[i] == '/' || expression[i] == '(' || expression[i] == ')')
+		if (i > 1 && expression[i] == '=' && expression[i - 1] == '!')
+		{
+			token += expression[i - 1];
+			token += expression[i];
+			tokens.push_back(token);
+			token.clear();
+		}
+		if (expression[i] == '+' || expression[i] == '-' || expression[i] == '*' || expression[i] == '^' || expression[i] == '/' || expression[i] == '(' || expression[i] == ')'|| expression[i] == '<' || expression[i] == '>' || expression[i] == '=')
 		{
 			token = expression[i];
 			tokens.push_back(token);
@@ -187,7 +194,7 @@ void WorkWithCode::fromIfToElse(string if_expression, string &else_expression)
 
 bool WorkWithCode::isOperator(string token)
 {
-	if (token == "+" || token == "-" || token == "/" || token == "^" || token == "*")
+	if (token == "+" || token == "-" || token == "/" || token == "^" || token == "*" || token == "=" || token == ">" || token == "<" || token == "!=")
 	{
 		return true;
 	}
@@ -207,6 +214,10 @@ int WorkWithCode::givePriority(string token)
 	else if (token == "^")
 	{
 		return 3;
+	}
+	else if (token == "=" || token == "<" || token == ">" || token == "!=")
+	{
+		return 4;
 	}
 	return 0;
 }
