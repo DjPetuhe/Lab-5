@@ -255,7 +255,12 @@ void AST::Implementation (Node *node, map<string, double> &variables) {
 }
 
 void AST::assign (Node *node, map <string, double> &variables) {
-	variables.emplace(node->childrens[0]->data, calculate (node->childrens[1], variables));
+
+	if (variables.find(node->childrens[0]->data) == variables.end()) {
+		variables.emplace(node->childrens[0]->data, calculate (node->childrens[1], variables));
+	} else {
+		variables.find(node->childrens[0]->data)->second = calculate (node->childrens[1], variables);
+	}
 }
 
 double AST::calculate (Node *node, map <string, double> &variables) {
@@ -280,7 +285,7 @@ double AST::do_calculation (Node *node, map <string, double> &variables) {
 	} else if (node->data == "^") {
 		res = pow (do_calculation(node->childrens[0], variables), do_calculation(node->childrens[1], variables));
 	} else if (isNumber(node->data)) {
-		cout << node->data << endl;
+		//cout << node->data << endl;
 		res = stof(node->data);
 	} else {
 		res = variables.find(node->data)->second;
@@ -300,19 +305,19 @@ bool AST::condiction (Node *node, map <string, double> &variables) {
 	bool res = false;
 
 	if (node->data == ">") {
-		res = node->childrens[0] > node->childrens[1];
+		res = calculate(node->childrens[0], variables) > calculate(node->childrens[1], variables);
 	}
 	else if (node->data == "<") {
-		res = node->childrens[0] < node->childrens[1];
+		res = calculate(node->childrens[0], variables) < calculate(node->childrens[1], variables);
 	} 
-	else if (node->data == "==") {
-		res = node->childrens[0] == node->childrens[1];
+	else if (node->data == "=") {
+		res = calculate(node->childrens[0], variables) == calculate(node->childrens[1], variables);
 	}
 	else if (node->data == "!=") {
-		res = node->childrens[0] != node->childrens[1];
+		res = calculate(node->childrens[0], variables) != calculate(node->childrens[1], variables);
 	} 
 	else if (isNumber(node->data)) {
-		cout << node->data << endl;
+		//cout << node->data << endl;
 		res = stof(node->data);
 	} else {
 		res = variables.find(node->data)->second;

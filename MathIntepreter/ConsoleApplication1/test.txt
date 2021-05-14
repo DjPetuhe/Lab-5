@@ -1,11 +1,21 @@
 a := 10;
 b := a + 2;
-if (b < a)
+b := a + 3 + a ^ 2;
+if (b > a)
 {
-    b := 14;
-    return (b);
+    b := b + 4;
+    
+    if (b < 15) 
+    {
+    	b := b * 2;
+    }
+    else 
+    {
+    	b := b / 2;
+    }
 }
 else
 {
-    return (a);
+    b := a + 6;
 }
+return(b);
