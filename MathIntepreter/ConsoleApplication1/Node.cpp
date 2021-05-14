@@ -12,12 +12,12 @@ Node* Node::makenode(string data)
 	return node;
 }
 
-Node* Node::makenode(string data, vector<string> childs)
+Node* Node::makenode(string data, vector<Node*> childs)
 {
 	Node* node = new Node(data);
 	for (int i = 0; i < childs.size(); i++)
 	{
-		node->childrens.push_back(makenode(childs[i]));
+		node->childrens.push_back(childs[i]);
 	}
 	return node;
 }

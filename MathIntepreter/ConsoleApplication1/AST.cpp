@@ -67,7 +67,7 @@ Node* AST::createCondition(string if_expression)
 {
 	int startpos = if_expression.find('(');
 	int endpos = if_expression.find(')');
-	string condition = if_expression.substr(startpos, endpos);
+	string condition = if_expression.substr(startpos + 1, endpos - startpos - 1);
 	return createExpression(condition);
 }
 
@@ -78,11 +78,11 @@ Node* AST::createIfBody(string if_expression)
 	int endpos;
 	for (int i = 0; i < if_expression.size(); i++)
 	{
-		if (if_expression[i] = '{')
+		if (if_expression[i] == '{')
 		{
 			deep++;
 		}
-		if (if_expression[i] = '}')
+		if (if_expression[i] == '}')
 		{
 			if (deep == 1)
 			{
@@ -111,6 +111,7 @@ Node* AST::createIfBody(string if_expression)
 			ifBody_node->childrens.push_back(createReturnExpression(expressions[i]));
 		}
 	}
+	return ifBody_node;
 }
 
 Node* AST::createElseBody(string else_expression)
@@ -120,7 +121,7 @@ Node* AST::createElseBody(string else_expression)
 	int endpos;
 	for (int i = 0; i < else_expression.size(); i++)
 	{
-		if (else_expression[i] = '{')
+		if (else_expression[i] == '{')
 		{
 			deep++;
 		}
@@ -149,6 +150,7 @@ Node* AST::createElseBody(string else_expression)
 			elseBody_node->childrens.push_back(createReturnExpression(expressions[i]));
 		}
 	}
+	return elseBody_node;
 }
 
 Node* AST::createExpression(string expression)
@@ -169,7 +171,7 @@ Node* AST::createExpression(string expression)
 		}
 		else if (WorkWithCode::isOperator(tokens[i]))
 		{
-			while (WorkWithCode::givePriority(operatorStack.back()) >= WorkWithCode::givePriority(tokens[i]))
+			while (!operatorStack.empty() && WorkWithCode::givePriority(operatorStack.back()) >= WorkWithCode::givePriority(tokens[i]))
 			{
 				string op = operatorStack.back();
 				operatorStack.pop_back();
@@ -184,7 +186,7 @@ Node* AST::createExpression(string expression)
 		}
 		else if (tokens[i] == ")")
 		{
-			while (operatorStack.back() != "(")
+			while (!operatorStack.empty() && operatorStack.back() != "(")
 			{
 				string op = operatorStack.back();
 				operatorStack.pop_back();
