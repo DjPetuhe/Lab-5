@@ -62,7 +62,7 @@ Node* AST::createReturnExpression(string return_expression)
 {
 	Node* return_node = new Node("return");
 	string returnment = return_expression.substr(7, return_expression.find(')') - 7);
-	return_node->childrens.push_back(Node::makenode(returnment));
+	return_node->childrens.push_back(createExpression(returnment)s);
 	return return_node;
 }
 
