@@ -97,6 +97,10 @@ void WorkWithCode::fromExpToTokens(string expression, vector<string>& tokens)
 			token.clear();
 		}
 	}
+	if (!token.empty())
+	{
+		tokens.push_back(token);
+	}
 }
 
 bool WorkWithCode::expressionIsIf(string expression)
@@ -130,10 +134,9 @@ bool WorkWithCode::expressionIsReturn(string expression)
 {
 	if (expression.size() > 6)
 	{
-		if (expression.find("return"))
+		if (expression.find("return") == 0)
 		{
-			int pos = expression.find("return");
-			if (pos == 0 && (!isalpha(expression[6])))
+			if (expression[6] == '(')
 			{
 				return true;
 			}
@@ -148,7 +151,7 @@ bool WorkWithCode::expressionConsistElse(string if_expression)
 	{
 		if (if_expression.size() > if_expression.find("else") + 4)
 		{
-			if (if_expression[if_expression.find("else") + 5] == '{')
+			if (if_expression[if_expression.find("else") + 4] == '{')
 			{
 				return true;
 			}
@@ -157,24 +160,24 @@ bool WorkWithCode::expressionConsistElse(string if_expression)
 	return false;
 }
 
-void WorkWithCode::fromIfToElse(string if_expression, string else_expression)
+void WorkWithCode::fromIfToElse(string if_expression, string &else_expression)
 {
 	int deep = 0;
 	int startpos;
 	for (int i = 0; i < if_expression.size(); i++)
 	{
-		if (if_expression[i] = '{')
+		if (if_expression[i] == '{')
 		{
 			if (i > 4 && deep == 0)
 			{
-				if (if_expression[i - 1] == 'e' && if_expression[i - 2] == 'l' && if_expression[i - 3] == 's' && if_expression[i - 4] == 'e')
+				if (if_expression[i - 1] == 'e' && if_expression[i - 2] == 's' && if_expression[i - 3] == 'l' && if_expression[i - 4] == 'e')
 				{
 					startpos = i;
 				}
 			}
 			deep++;
 		}
-		if (if_expression[i] = '}')
+		if (if_expression[i] == '}')
 		{
 			deep--;
 		}

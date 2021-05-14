@@ -58,7 +58,7 @@ Node* AST::createAssignExpression(string assign_expression)
 Node* AST::createReturnExpression(string return_expression)
 {
 	Node* return_node = new Node("return");
-	string returnment = return_expression.substr(return_expression.find("return") + 6, return_expression.find(';') - 1);
+	string returnment = return_expression.substr(7, return_expression.find(')') - 7);
 	return_node->childrens.push_back(Node::makenode(returnment));
 	return return_node;
 }
@@ -125,7 +125,7 @@ Node* AST::createElseBody(string else_expression)
 		{
 			deep++;
 		}
-		if (else_expression[i] = '}' && deep == 1)
+		if (else_expression[i] == '}' && deep == 1)
 		{
 			endpos = i;
 			i = else_expression.size();
@@ -133,7 +133,7 @@ Node* AST::createElseBody(string else_expression)
 	}
 	vector<string> elseBody;
 	vector<string> expressions;
-	elseBody.push_back(else_expression.substr(else_expression.find('{'), endpos));
+	elseBody.push_back(else_expression.substr(else_expression.find('{'), endpos - else_expression.find('{')));
 	WorkWithCode::fromCodeToExp(elseBody, expressions);
 	for (int i = 0; i < expressions.size(); i++)
 	{
@@ -201,6 +201,18 @@ Node* AST::createExpression(string expression)
 			}
 			operatorStack.pop_back();
 		}
+	}
+	while (!operatorStack.empty())
+	{
+		string op = operatorStack.back();
+		operatorStack.pop_back();
+		vector<Node*> Childs;
+		Node* save = NodeStack.back();
+		NodeStack.pop_back();
+		Childs.push_back(NodeStack.back());
+		NodeStack.pop_back();
+		Childs.push_back(save);
+		NodeStack.push_back(Node::makenode(op, Childs));
 	}
 	return NodeStack.back();
 }
