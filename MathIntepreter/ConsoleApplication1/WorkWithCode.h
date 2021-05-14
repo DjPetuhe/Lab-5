@@ -11,5 +11,6 @@ public:
 	static bool expressionIsAssign(std::string);
 	static bool expressionIsReturn(std::string);
 	static bool expressionConsistElse(std::string);
-	static void fromIfToElse(std::string);
+	static void fromIfToElse(std::string, std::string);
+	static bool isOperator(std::string);
 };

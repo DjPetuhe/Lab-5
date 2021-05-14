@@ -9,6 +9,7 @@ class Node
 	std::vector<Node*> childrens;
 public:
 	Node(std::string);
-	static Node* makenode(std::string data);
+	static Node* makenode(std::string );
+	static Node* makenode(std::string, std::vector<Node*>);
 	friend class AST;
 };

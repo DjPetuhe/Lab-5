@@ -153,5 +153,52 @@ Node* AST::createElseBody(string else_expression)
 
 Node* AST::createExpression(string expression)
 {
+	vector<string> tokens;
+	WorkWithCode::fromExpToTokens(expression, tokens);
+	vector<string> operatorStack;
+	vector<Node*> NodeStack;
+	for (int i = 0; i < tokens.size(); i++)
+	{
+		if (tokens[i] == "(")
+		{
+			operatorStack.push_back(tokens[i]);
+		}
+		else if ((tokens[i][0] >= 65 && tokens[i][0] <= 90) || (tokens[i][0] >= 97 && tokens[i][0] <= 122) || (tokens[i][0] >= 48 && tokens[i][0] <= 57))
+		{
+			NodeStack.push_back(Node::makenode(tokens[i]));
+		}
+		else if (WorkWithCode::isOperator(tokens[i]))
+		{
+			while (WorkWithCode::givePriority(operatorStack.back()) >= WorkWithCode::givePriority(tokens[i]))
+			{
+				string op = operatorStack.back();
+				operatorStack.pop_back();
+				vector<Node*> Childs;
+				Childs.push_back(NodeStack.back());
+				NodeStack.pop_back();
+				Childs.push_back(NodeStack.back());
+				NodeStack.pop_back();
+				NodeStack.push_back(Node::makenode(op,Childs));
+			}
+			operatorStack.push_back(tokens[i]);
+		}
+		else if (tokens[i] == ")")
+		{
+			while (operatorStack.back() != "(")
+			{
+				string op = operatorStack.back();
+				operatorStack.pop_back();
+				vector<Node*> Childs;
+				Node * save = NodeStack.back();
+				NodeStack.pop_back();
+				Childs.push_back(NodeStack.back());
+				NodeStack.pop_back();
+				Childs.push_back(save);
+				NodeStack.push_back(Node::makenode(op, Childs));
 
+			}
+			operatorStack.pop_back();
+		}
+	}
+	return NodeStack.back();
 }

@@ -181,3 +181,28 @@ void WorkWithCode::fromIfToElse(string if_expression, string else_expression)
 	}
 	else_expression = if_expression.substr(startpos);
 }
+
+bool WorkWithCode::isOperator(string token)
+{
+	if (token == "+" || token == "-" || token == "/" || token == "^" || token == "*")
+	{
+		return true;
+	}
+	return false;
+}
+
+int WorkWithCode::givePriority(string token)
+{
+	if (token == "+" || token == "-")
+	{
+		return 1;
+	}
+	else if (token == "/" || token == "*")
+	{
+		return 2;
+	}
+	else if (token == "^")
+	{
+		return 3;
+	}
+}
