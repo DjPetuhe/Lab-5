@@ -1,7 +1,8 @@
 a := 10;
 b := a + 2;
-if (b +a)
+if (b < a)
 {
+    b := 14;
     return (b);
 }
 else

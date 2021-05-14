@@ -233,11 +233,16 @@ void AST::Implementation (Node *node, map<string, double> &variables) {
 	}
 
 	for (int i = 0; i < node->childrens.size(); i++) {
+		//Implementation (node->childrens[i], variables);
 
 		if (node->childrens[i]->data == ":=") {
 			assign (node->childrens[i], variables);
 		}
-		//PrintTree (node->childrens[i], variables);
+		else if (node->childrens[i]->data == "if") {
+			cout << "++++++++++++" << endl;
+			Implementation (node->childrens[i]->childrens[1], variables);
+		}
+		
 	}
 }
 
@@ -281,4 +286,29 @@ bool AST::isNumber (string s) {
         if((s[i] < '0' || s[i] > '9') && s[i] != '-' && s[i] != '.') 
         	return false; 
     return true;
+}
+
+bool AST::condiction (Node *node, map <string, double> &variables) {
+	bool res = false;
+
+	if (node->data == ">") {
+		res = node->childrens[0] > node->childrens[1];
+	}
+	else if (node->data == "<") {
+		res = node->childrens[0] < node->childrens[1];
+	} 
+	else if (node->data == "==") {
+		res = node->childrens[0] == node->childrens[1];
+	}
+	else if (node->data == "!=") {
+		res = node->childrens[0] != node->childrens[1];
+	} 
+	else if (isNumber(node->data)) {
+		cout << node->data << endl;
+		res = stof(node->data);
+	} else {
+		res = variables.find(node->data)->second;
+	}
+
+	return res;
 }

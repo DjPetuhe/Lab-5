@@ -20,5 +20,5 @@ int main()
 
 	tree1.StartImplementation(variables);
 
-	cout << variables.find("b")->second << endl;
+	cout << variables.find("{b")->second << endl;
 }

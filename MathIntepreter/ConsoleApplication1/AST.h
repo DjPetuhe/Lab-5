@@ -26,4 +26,5 @@ public:
 	double calculate (Node *node, map <string, double> &variables);
 	double do_calculation (Node *node, map <string, double> &variables);
 	bool isNumber (string s);
+	bool condiction (Node *node, map <string, double> &variables);
 };
