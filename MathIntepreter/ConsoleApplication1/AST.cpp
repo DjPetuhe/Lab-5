@@ -24,6 +24,10 @@ void AST::createTree(vector<string> &code)
 		{
 			root->childrens.push_back(createIfExpression(expressions[i]));
 		}
+		else if (WorkWithCode::expressionIsWhile(expressions[i]))
+		{
+			root->childrens.push_back(createWhileExpression(expressions[i]));
+		}
 		else if (WorkWithCode::expressionIsAssign(expressions[i]))
 		{
 			root->childrens.push_back(createAssignExpression(expressions[i]));
@@ -31,10 +35,6 @@ void AST::createTree(vector<string> &code)
 		else if (WorkWithCode::expressionIsReturn(expressions[i]))
 		{
 			root->childrens.push_back(createReturnExpression(expressions[i]));
-		}
-		else if (WorkWithCode::expressionIsWhile(expressions[i]))
-		{
-			root->childrens.push_back(createWhileExpression(expressions[i]));
 		}
 	}
 }
@@ -118,6 +118,10 @@ Node* AST::createIfBody(string if_expression)
 		{
 			ifBody_node->childrens.push_back(createIfExpression(expressions[i]));
 		}
+		else if (WorkWithCode::expressionIsWhile(expressions[i]))
+		{
+			ifBody_node->childrens.push_back(createWhileExpression(expressions[i]));
+		}
 		else if (WorkWithCode::expressionIsAssign(expressions[i]))
 		{
 			ifBody_node->childrens.push_back(createAssignExpression(expressions[i]));
@@ -125,10 +129,6 @@ Node* AST::createIfBody(string if_expression)
 		else if (WorkWithCode::expressionIsReturn(expressions[i]))
 		{
 			ifBody_node->childrens.push_back(createReturnExpression(expressions[i]));
-		}
-		else if (WorkWithCode::expressionIsWhile(expressions[i]))
-		{
-			ifBody_node->childrens.push_back(createWhileExpression(expressions[i]));
 		}
 	}
 	return ifBody_node;
@@ -165,6 +165,10 @@ Node* AST::createWhileBody(string while_expression)
 		{
 			whileBody_node->childrens.push_back(createIfExpression(expressions[i]));
 		}
+		else if (WorkWithCode::expressionIsWhile(expressions[i]))
+		{
+			whileBody_node->childrens.push_back(createWhileExpression(expressions[i]));
+		}
 		else if (WorkWithCode::expressionIsAssign(expressions[i]))
 		{
 			whileBody_node->childrens.push_back(createAssignExpression(expressions[i]));
@@ -172,10 +176,6 @@ Node* AST::createWhileBody(string while_expression)
 		else if (WorkWithCode::expressionIsReturn(expressions[i]))
 		{
 			whileBody_node->childrens.push_back(createReturnExpression(expressions[i]));
-		}
-		else if (WorkWithCode::expressionIsWhile(expressions[i]))
-		{
-			whileBody_node->childrens.push_back(createWhileExpression(expressions[i]));
 		}
 	}
 	return whileBody_node;
