@@ -37,7 +37,7 @@ void WorkWithCode::fromCodeToExp(vector<string> &code, vector<string> &expressio
 		{
 			iswhile = true;
 		}
-		if (all[i] == ';' && !isif)
+		if (all[i] == ';' && !isif && !iswhile)
 		{
 			expressions.push_back(exp);
 			exp.clear();
