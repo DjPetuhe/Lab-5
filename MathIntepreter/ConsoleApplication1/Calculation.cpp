@@ -9,15 +9,8 @@ double calculationStr (string exp) {
     double res = 0; 
     int size = exp.size();
     string *s = new string[size];
-
-
     expressionSeparate(exp, s, &size);
-    
     res = calculate(s, size);
-    
-
-    //delete s;
-    //cout << "+++++++" << endl;
     return res;
 }
 

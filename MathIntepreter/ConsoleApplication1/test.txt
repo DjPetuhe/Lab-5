@@ -1,19 +1,19 @@
-asf := 10;
-brrr := asf + 2;
-brrr := asf + 3 + asf * 100 + 200;
-if (brrr > a)
+first := 10;
+second := first + 2;
+second := first + 3 + first * 100 + 200;
+if (second > first)
 {
-    brrr := brrr + 4;
+    second := second + 4;
     
-    if (brrr < 15) {
-    	brrr := brrr * 2;
+    if (second < 15) {
+    	second := second * 2;
     }
     else {
-    	brrr := brrr / 2;
+    	second := second / 2;
     }
 }
 else
 {
-    brrr := asf + 6;
+    second := first + 6;
 }
-return(brrr);
+return(second);

@@ -226,10 +226,8 @@ void AST::StartImplementation () {
 }
 
 void AST::Implementation (Node *node) {
-	//cout << node->data << endl;
 
 	for (int i = 0; i < node->childrens.size(); i++) {
-		//Implementation (node->childrens[i], variables);
 
 		if (node->childrens[i]->data == ":=") {
 			assign (node->childrens[i]);
@@ -257,8 +255,6 @@ void AST::assign (Node *node) {
 	} else {
 		variables.find(node->childrens[0]->data)->second = calculate (node->childrens[1]);
 	}
-
-	//calculate (node->childrens[1]);
 }
 
 double AST::calculate (Node *node) {
@@ -268,13 +264,7 @@ double AST::calculate (Node *node) {
 	if (node != nullptr)
 		add_exp (node, exp);
 
-	
-
 	res = calculationStr(exp);
-	
-	//cout << exp << endl;
-
-	//res = do_calculation(node);
 
 	return res;
 }
@@ -285,7 +275,6 @@ void AST::add_exp (Node *node, string &exp) {
 	if (node->childrens.size() > 0 && node->childrens[0] != nullptr) {
 		add_exp (node->childrens[0], exp);
 	}
-
 	
 	if (isNumber(node->data) || node->data == "+" || node->data == "-" || node->data == "*" || node->data == "/" || node->data == "^") {
 		exp += node->data;
@@ -293,34 +282,10 @@ void AST::add_exp (Node *node, string &exp) {
 		exp += to_string(variables.find(node->data)->second);
 	}
 
-	
-
 	if (node->childrens.size() > 1 && node->childrens[1] != nullptr) {
 		add_exp (node->childrens[1], exp);
 	}
 }
-
-/*double AST::do_calculation (Node *node) {
-	double res = 0;
-
-	if (node->data == "+") {
-		res = do_calculation(node->childrens[0]) + do_calculation(node->childrens[1]);
-	} else if (node->data == "-") {
-		res = do_calculation(node->childrens[0]) - do_calculation(node->childrens[1]);
-	} else if (node->data == "/") {
-		res = do_calculation(node->childrens[0]) / do_calculation(node->childrens[1]);
-	} else if (node->data == "*") {
-		res = do_calculation(node->childrens[0]) * do_calculation(node->childrens[1]);
-	} else if (node->data == "^") {
-		res = pow (do_calculation(node->childrens[0]), do_calculation(node->childrens[1]));
-	} else if (isNumber(node->data)) {
-		res = stof(node->data);
-	} else {
-		res = variables.find(node->data)->second;
-	}
-
-	return res;
-}*/
 
 bool AST::isNumber (string s) {
 	for (int i = 0; i < s.size(); i++)
