@@ -294,12 +294,14 @@ void AST::StartImplementation () {
 
 void AST::Implementation (Node *node) {
 
-	for (int i = 0; i < node->childrens.size(); i++) {
+	for (int i = 0; i < node->childrens.size(); i++) {	
 
 		if (node->childrens[i]->data == ":=") {
+			
 			assign (node->childrens[i]);
 		}
 		else if (node->childrens[i]->data == "if") {
+			cout << "++++++" << endl;
 			if  (condiction (node->childrens[i]->childrens[0])) {
 				Implementation (node->childrens[i]->childrens[1]);
 			}

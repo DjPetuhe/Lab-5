@@ -1,6 +1,24 @@
-first := 10;
-while ( first > 0 ) 
+a := 12;
+b := 1233;
+c := a*b;
+if (a > 0)
 {
-    first := first - 1;
-    return(first);
+  d := 33;
+  if (22 > 1)
+  {
+  	a := 22;
+  } 
+  else {
+  	a := a + 10 - 10; 
+  }
 }
+else
+{
+  d:= 44;
+}
+while (d > 1)
+{
+   k := 10;
+   d := d - 1;
+}
+return (d);
