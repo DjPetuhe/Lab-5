@@ -4,6 +4,7 @@
 #include "AST.h"
 #include "Node.h"
 #include "WorkWithCode.h"
+#include "Calculation.h"
 
 using namespace std;
 
@@ -220,79 +221,106 @@ Node* AST::createExpression(string expression)
 	return NodeStack.back();
 }
 
-void AST::StartImplementation (map <string, double> &variables) {
-	Implementation (root, variables);
+void AST::StartImplementation () {
+	Implementation (root);
 }
 
-void AST::Implementation (Node *node, map<string, double> &variables) {
-
-	cout << node->data << endl;
-
-	if (node->data == ":=") {
-
-	}
+void AST::Implementation (Node *node) {
+	//cout << node->data << endl;
 
 	for (int i = 0; i < node->childrens.size(); i++) {
 		//Implementation (node->childrens[i], variables);
 
 		if (node->childrens[i]->data == ":=") {
-			assign (node->childrens[i], variables);
+			assign (node->childrens[i]);
 		}
 		else if (node->childrens[i]->data == "if") {
-			if  (condiction (node->childrens[i]->childrens[0], variables)) {
-				Implementation (node->childrens[i]->childrens[1], variables);
+			if  (condiction (node->childrens[i]->childrens[0])) {
+				Implementation (node->childrens[i]->childrens[1]);
 			}
 			else {
-				Implementation (node->childrens[i]->childrens[2], variables);
+				Implementation (node->childrens[i]->childrens[2]);
 			}
 		}
 		else if (node->childrens[i]->data == "return") {
-			cout << calculate (node->childrens[i]->childrens[0], variables) << endl;
-			break;
+			cout << calculate (node->childrens[i]->childrens[0]) << endl;
+			return;
 		}
 		
 	}
 }
 
-void AST::assign (Node *node, map <string, double> &variables) {
+void AST::assign (Node *node) {
 
 	if (variables.find(node->childrens[0]->data) == variables.end()) {
-		variables.emplace(node->childrens[0]->data, calculate (node->childrens[1], variables));
+		variables.emplace(node->childrens[0]->data, calculate (node->childrens[1]));
 	} else {
-		variables.find(node->childrens[0]->data)->second = calculate (node->childrens[1], variables);
+		variables.find(node->childrens[0]->data)->second = calculate (node->childrens[1]);
 	}
+
+	//calculate (node->childrens[1]);
 }
 
-double AST::calculate (Node *node, map <string, double> &variables) {
+double AST::calculate (Node *node) {
 	double res = 0;
+	string exp;
 
-	res = do_calculation(node, variables);
+	if (node != nullptr)
+		add_exp (node, exp);
+
+	
+
+	res = calculationStr(exp);
+	
+	//cout << exp << endl;
+
+	//res = do_calculation(node);
 
 	return res;
 }
 
-double AST::do_calculation (Node *node, map <string, double> &variables) {
+void AST::add_exp (Node *node, string &exp) {
+
+	
+	if (node->childrens.size() > 0 && node->childrens[0] != nullptr) {
+		add_exp (node->childrens[0], exp);
+	}
+
+	
+	if (isNumber(node->data) || node->data == "+" || node->data == "-" || node->data == "*" || node->data == "/" || node->data == "^") {
+		exp += node->data;
+	} else {
+		exp += to_string(variables.find(node->data)->second);
+	}
+
+	
+
+	if (node->childrens.size() > 1 && node->childrens[1] != nullptr) {
+		add_exp (node->childrens[1], exp);
+	}
+}
+
+/*double AST::do_calculation (Node *node) {
 	double res = 0;
 
 	if (node->data == "+") {
-		res = do_calculation(node->childrens[0], variables) + do_calculation(node->childrens[1], variables);
+		res = do_calculation(node->childrens[0]) + do_calculation(node->childrens[1]);
 	} else if (node->data == "-") {
-		res = do_calculation(node->childrens[0], variables) - do_calculation(node->childrens[1], variables);
+		res = do_calculation(node->childrens[0]) - do_calculation(node->childrens[1]);
 	} else if (node->data == "/") {
-		res = do_calculation(node->childrens[0], variables) / do_calculation(node->childrens[1], variables);
+		res = do_calculation(node->childrens[0]) / do_calculation(node->childrens[1]);
 	} else if (node->data == "*") {
-		res = do_calculation(node->childrens[0], variables) * do_calculation(node->childrens[1], variables);
+		res = do_calculation(node->childrens[0]) * do_calculation(node->childrens[1]);
 	} else if (node->data == "^") {
-		res = pow (do_calculation(node->childrens[0], variables), do_calculation(node->childrens[1], variables));
+		res = pow (do_calculation(node->childrens[0]), do_calculation(node->childrens[1]));
 	} else if (isNumber(node->data)) {
-		//cout << node->data << endl;
 		res = stof(node->data);
 	} else {
 		res = variables.find(node->data)->second;
 	}
 
 	return res;
-}
+}*/
 
 bool AST::isNumber (string s) {
 	for (int i = 0; i < s.size(); i++)
@@ -301,23 +329,22 @@ bool AST::isNumber (string s) {
     return true;
 }
 
-bool AST::condiction (Node *node, map <string, double> &variables) {
+bool AST::condiction (Node *node) {
 	bool res = false;
 
 	if (node->data == ">") {
-		res = calculate(node->childrens[0], variables) > calculate(node->childrens[1], variables);
+		res = calculate(node->childrens[0]) > calculate(node->childrens[1]);
 	}
 	else if (node->data == "<") {
-		res = calculate(node->childrens[0], variables) < calculate(node->childrens[1], variables);
+		res = calculate(node->childrens[0]) < calculate(node->childrens[1]);
 	} 
 	else if (node->data == "=") {
-		res = calculate(node->childrens[0], variables) == calculate(node->childrens[1], variables);
+		res = calculate(node->childrens[0]) == calculate(node->childrens[1]);
 	}
 	else if (node->data == "!=") {
-		res = calculate(node->childrens[0], variables) != calculate(node->childrens[1], variables);
+		res = calculate(node->childrens[0]) != calculate(node->childrens[1]);
 	} 
 	else if (isNumber(node->data)) {
-		//cout << node->data << endl;
 		res = stof(node->data);
 	} else {
 		res = variables.find(node->data)->second;

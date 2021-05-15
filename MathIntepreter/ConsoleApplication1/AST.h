@@ -17,14 +17,16 @@ public:
 	Node* createIfBody(std::string);
 	Node* createElseBody(std::string);
 	Node* createExpression(std::string);
+	map <string, double> variables;
 
 	AST();
 	void createTree(std::vector<std::string> &);
-	void Implementation (Node *node, map <string, double> &variables);
-	void StartImplementation (map <string, double> &variables);
-	void assign (Node *node, map <string, double> &variables);
-	double calculate (Node *node, map <string, double> &variables);
-	double do_calculation (Node *node, map <string, double> &variables);
+	void Implementation (Node *node);
+	void StartImplementation ();
+	void assign (Node *node);
+	double calculate (Node *node);
+	double do_calculation (Node *node);
 	bool isNumber (string s);
-	bool condiction (Node *node, map <string, double> &variables);
+	bool condiction (Node *node);
+	void add_exp (Node *node, string &expression);
 };

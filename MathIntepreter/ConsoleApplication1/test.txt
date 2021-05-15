@@ -1,21 +1,19 @@
-a := 10;
-b := a + 2;
-b := a + 3 + a ^ 2;
-if (b > a)
+asf := 10;
+brrr := asf + 2;
+brrr := asf + 3 + asf * 100 + 200;
+if (brrr > a)
 {
-    b := b + 4;
+    brrr := brrr + 4;
     
-    if (b < 15) 
-    {
-    	b := b * 2;
+    if (brrr < 15) {
+    	brrr := brrr * 2;
     }
-    else 
-    {
-    	b := b / 2;
+    else {
+    	brrr := brrr / 2;
     }
 }
 else
 {
-    b := a + 6;
+    brrr := asf + 6;
 }
-return(b);
+return(brrr);

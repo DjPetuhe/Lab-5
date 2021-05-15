@@ -12,8 +12,6 @@ int main()
 	FileWork::file_read(code);
 	AST tree1;
 	tree1.createTree(code);
-
 	
-	map <string, double> variables;
-	tree1.StartImplementation(variables);
+	tree1.StartImplementation();
 }
