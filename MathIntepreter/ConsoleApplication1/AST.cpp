@@ -242,7 +242,7 @@ void AST::Implementation (Node *node) {
 		}
 		else if (node->childrens[i]->data == "return") {
 			cout << calculate (node->childrens[i]->childrens[0]) << endl;
-			return;
+			//return;
 		}
 		
 	}
