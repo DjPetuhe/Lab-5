@@ -294,12 +294,7 @@ void AST::StartImplementation () {
 
 void AST::Implementation (Node *node) {
 
-	//cout << node->data << endl;
-
 	for (int i = 0; i < node->childrens.size(); i++) {
-		//cout << i << endl;
-
-		Implementation (node->childrens[i]);
 
 		if (node->childrens[i]->data == ":=") {
 			assign (node->childrens[i]);
@@ -317,7 +312,6 @@ void AST::Implementation (Node *node) {
 			//return;
 		} else if (node->childrens[i]->data == "while") {
 			if  (condiction (node->childrens[i]->childrens[0])) {
-				//cout << "+++++++" << endl;
 				Implementation (node->childrens[i]->childrens[1]);
 				i--;
 			}
