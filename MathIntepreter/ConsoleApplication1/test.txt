@@ -1,19 +1,6 @@
 first := 10;
-second := first + 2;
-second := first + 3 + first * 100 + 200;
-if (second > first)
+while ( first > 0 ) 
 {
-    second := second + 4;
-    
-    if (second < 15) {
-    	second := second * 2;
-    }
-    else {
-    	second := second / 2;
-    }
+    first := first - 1;
+    return(first);
 }
-else
-{
-    second := first + 6;
-}
-return(second);
