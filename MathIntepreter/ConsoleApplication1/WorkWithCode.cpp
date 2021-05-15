@@ -221,3 +221,15 @@ int WorkWithCode::givePriority(string token)
 	}
 	return 0;
 }
+
+bool WorkWithCode::expressionIsWhile(string expression)
+{
+	if (expression.size() > 5)
+	{
+		if (expression[0] == 'w' && expression[1] == 'h' && expression[2] == 'i' && expression[3] == 'l' && expression[4] == 'e' && expression[5] == '(')
+		{
+			return true;
+		}
+	}
+	return false;
+}

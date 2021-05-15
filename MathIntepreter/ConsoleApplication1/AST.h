@@ -16,6 +16,8 @@ class AST
 	Node* createIfBody(std::string);
 	Node* createElseBody(std::string);
 	Node* createExpression(std::string);
+	Node* createWhileExpression(std::string);
+	Node* createWhileBody(std::string);
 	map <string, double> variables;
 	void Implementation (Node *node);
 	void assign (Node *node);

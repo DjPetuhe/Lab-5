@@ -32,6 +32,10 @@ void AST::createTree(vector<string> &code)
 		{
 			root->childrens.push_back(createReturnExpression(expressions[i]));
 		}
+		else if (WorkWithCode::expressionIsWhile(expressions[i]))
+		{
+			root->childrens.push_back(createWhileExpression(expressions[i]));
+		}
 	}
 }
 
@@ -67,11 +71,19 @@ Node* AST::createReturnExpression(string return_expression)
 	return return_node;
 }
 
-Node* AST::createCondition(string if_expression)
+Node* AST::createWhileExpression(string while_expression)
 {
-	int startpos = if_expression.find('(');
-	int endpos = if_expression.find(')');
-	string condition = if_expression.substr(startpos + 1, endpos - startpos - 1);
+	Node* while_node = new Node("while");
+	while_node->childrens.push_back(createCondition(while_expression));
+	while_node->childrens.push_back(createWhileBody(while_expression));
+	return while_node;
+}
+
+Node* AST::createCondition(string expression)
+{
+	int startpos = expression.find('(');
+	int endpos = expression.find(')');
+	string condition = expression.substr(startpos + 1, endpos - startpos - 1);
 	return createExpression(condition);
 }
 
@@ -114,8 +126,59 @@ Node* AST::createIfBody(string if_expression)
 		{
 			ifBody_node->childrens.push_back(createReturnExpression(expressions[i]));
 		}
+		else if (WorkWithCode::expressionIsWhile(expressions[i]))
+		{
+			ifBody_node->childrens.push_back(createWhileExpression(expressions[i]));
+		}
 	}
 	return ifBody_node;
+}
+
+Node* AST::createWhileBody(string while_expression)
+{
+	Node* whileBody_node = new Node("while body");
+	int deep = 0;
+	int endpos;
+	for (int i = 0; i < while_expression.size(); i++)
+	{
+		if (while_expression[i] == '{')
+		{
+			deep++;
+		}
+		if (while_expression[i] == '}')
+		{
+			if (deep == 1)
+			{
+				endpos = i;
+				i = while_expression.size();
+			}
+			deep--;
+		}
+	}
+	vector<string> whileBody;
+	vector<string> expressions;
+	whileBody.push_back(while_expression.substr(while_expression.find('{') + 1, endpos - while_expression.find('{') - 1));
+	WorkWithCode::fromCodeToExp(whileBody, expressions);
+	for (int i = 0; i < expressions.size(); i++)
+	{
+		if (WorkWithCode::expressionIsIf(expressions[i]))
+		{
+			whileBody_node->childrens.push_back(createIfExpression(expressions[i]));
+		}
+		else if (WorkWithCode::expressionIsAssign(expressions[i]))
+		{
+			whileBody_node->childrens.push_back(createAssignExpression(expressions[i]));
+		}
+		else if (WorkWithCode::expressionIsReturn(expressions[i]))
+		{
+			whileBody_node->childrens.push_back(createReturnExpression(expressions[i]));
+		}
+		else if (WorkWithCode::expressionIsWhile(expressions[i]))
+		{
+			whileBody_node->childrens.push_back(createWhileExpression(expressions[i]));
+		}
+	}
+	return whileBody_node;
 }
 
 Node* AST::createElseBody(string else_expression)
@@ -152,6 +215,10 @@ Node* AST::createElseBody(string else_expression)
 		else if (WorkWithCode::expressionIsReturn(expressions[i]))
 		{
 			elseBody_node->childrens.push_back(createReturnExpression(expressions[i]));
+		}
+		else if (WorkWithCode::expressionIsWhile(expressions[i]))
+		{
+			elseBody_node->childrens.push_back(createWhileExpression(expressions[i]));
 		}
 	}
 	return elseBody_node;

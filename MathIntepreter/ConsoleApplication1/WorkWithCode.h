@@ -14,4 +14,5 @@ public:
 	static void fromIfToElse(std::string, std::string&);
 	static bool isOperator(std::string);
 	static int givePriority(std::string);
+	static bool expressionIsWhile(std::string);
 };
